@@ -1,0 +1,30 @@
+<?php
+namespace MainBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+
+class Media
+{
+    /**
+     * @MongoDB\Id
+     */
+    protected $id;
+
+    /**
+     * @MongoDB\Date
+     */
+    protected $created_at;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $path;
+
+    function __construct(){
+        $this->created_at = new \DateTime();
+    }
+}

@@ -1,0 +1,39 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/fosuser/css/style.css') }}">
+{% endblock %}
+
+{% block fos_user_content %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="box" style="padding: 20px;">
+            <h3>{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            </h3>
+        </div>
+    {% else %}
+    <div class="box">
+        <h1>Login</h1>
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <label id="icon" for="username"><i class="fa fa-user"></i></label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" onfocus="this.value='';" onblur="if(this.value==''){this.value=='{{ 'security.login.username'|trans }}'};" />
+
+            <label id="icon" for="password"><i class="fa fa-shield"></i></label>
+            <input type="password" id="password" name="_password" required="required" onfocus="this.value='';" onblur="if(this.value==''){this.value=='{{ 'security.login.password'|trans }}'};" />
+        <div class="options">
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <span class="remember_me">{{ 'security.login.remember_me'|trans }}</span>
+            <input type="submit" class="button" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+        </div>
+            {% if error %}
+                <div class="error_login">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+        </form>
+    </div>
+{% endif %}
+{% endblock fos_user_content %}

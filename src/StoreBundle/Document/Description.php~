@@ -1,0 +1,41 @@
+<?php
+
+namespace StoreBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * StoreBundle\Document\Description
+ *
+ * @ODM\Document(
+ *     repositoryClass="StoreBundle\Document\DescriptionRepository"
+ * )
+ *
+ */
+/** @ODM\EmbeddedDocument */
+class Description
+{
+    /**
+     * @var MongoId $id
+     *
+     * @ODM\Id(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string $des
+     *
+     * @ODM\Field(name="des", type="string")
+     */
+    protected $des;
+
+
+    /**
+     * @ODM\ReferenceOne(targetDocument="Product", inversedBy="description")
+     *
+     */
+    protected $productDescription;
+
+    
+}

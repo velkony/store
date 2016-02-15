@@ -1,0 +1,4 @@
+store_product:
+    resource: "@StoreBundle/Resources/config/routing/product.yml"
+    prefix:   /product
+

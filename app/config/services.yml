@@ -1,0 +1,30 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+    # Form extensions
+    extension.collection_type_class: StoreBundle\Form\Extension\CollectionTypeExtension
+
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    fos_user.doctrine_registry:
+        alias: doctrine_mongodb
+
+    # Form extensions
+    collection_type_extension:
+        class: %extension.collection_type_class%
+        tags:
+            - { name: form.type_extension, alias: collection }
+            
+    entity.event_listener.product_update:
+        class:  StoreBundle\EventListener\Entity\ProductUpdateListener
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+#            - { name: doctrine_mongodb.odm.event_listener, event: postFlush }
+            
+#    product.listener.description_removal:
+#        class: StoreBundle\EventListener\ProductDescriptionRemovalListener
+#        tags:
+#          - { name: doctrine_mongodb.odm.event_listener, event: preRemove }

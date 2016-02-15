@@ -1,0 +1,75 @@
+{% trans_default_domain 'form' %}
+
+{% block collection_widget %}
+    {% if prototype is not defined %}
+        <div class="alert alert-danger">
+            In order to render labels properly, prototype is required! Try setting the following options:<br/>
+            * <strong>allow_add:</strong> true<br/>
+            * <strong>prototype_only:</strong> true<br/>
+            This way will ensure that prototype will be rendered and the user will not be able to add new rows.
+        </div>
+    {% endif %}
+
+    {% if layout == constant('StoreBundle\\Constant\\CollectionLayoutConstants::SINGLE_TABLE') %}
+        {{ block('single_table_collection') }}
+    {% endif %}
+{% endblock %}
+
+{% block single_table_collection %}
+    {% if prototype is defined %}
+        {% set child = prototype %}
+        {%- set attr = attr|merge({'data-prototype': block('single_table_widget_row') }) -%}
+    {% endif %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    {% if prototype is defined %}
+                        {% for row in prototype %}
+                            <th>{{ form_label(row) }}</th>
+                        {% endfor %}
+                    {% endif %}
+                    {% if allow_delete is defined and allow_delete is sameas(true) %}
+                        <th class="col-small text-center">
+                            <i class="fa fa-trash"></i>
+                        </th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for child in form %}
+                    {{ block('single_table_widget_row') }}
+                {% endfor %}
+                </tbody>
+                {% if allow_add is defined and allow_add is sameas(true) and prototype_only is sameas(false) %}
+                    <tfoot>
+                    <tr>
+                        <td colspan="{{ prototype is defined ? prototype | length : 1 }}">
+                            <button type="button" class="btn btn-xs btn-success collection-add-row">
+                                <i class="fa fa-plus"></i>
+                                {{ 'common.add_new_element'|trans }}
+                            </button>
+                        </td>
+                    </tr>
+                    </tfoot>
+                {% endif %}
+            </table>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block single_table_widget_row %}
+    <tr>
+        {% for element in child %}
+            <td>{{ form_widget(element) }}</td>
+        {% endfor %}
+        {% if allow_delete is defined and allow_delete is sameas(true) %}
+            <td class="col-small text-center">
+                <button class="btn btn-danger btn-xs btn-circle btn-line delete_row" type="button" title="{{ 'common.delete_element'|trans }}">
+                    <i class="fa fa-trash icon-only"></i>
+                </button>
+            </td>
+        {% endif %}
+    </tr>
+{% endblock %}

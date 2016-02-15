@@ -1,0 +1,29 @@
+UsersBundle\Document\Users:
+  user1:
+    username: admin
+    email: admin@gmail.com
+    enabled: true
+    plainPassword: admin
+    roles: [ROLE_SUPER_ADMIN]
+
+  user2:
+      username: Jackson
+      email: jackson@gmail.com
+      enabled: true
+      plainPassword: jackson
+      roles: [ROLE_CITIZEN]
+
+  user3:
+      username: Paul
+      email: paul@gmail.com
+      enabled: true
+      plainPassword: paul
+      roles: [ROLE_CITIZEN]
+
+  user4:
+      username: New Yorr city library
+      email: nylibrary@gmail.com
+      enabled: true
+      plainPassword: library
+      roles: [ROLE_ESTABLISHMENT]
+
